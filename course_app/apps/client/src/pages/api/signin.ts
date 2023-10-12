@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { connectToDb } from './db/mongoose';
+import {checkifDbConnected} from './db/mongoose';
 import {Admin} from 'db'
  import jwt from 'jsonwebtoken'
 
-connectToDb();
+checkifDbConnected();
 
 type Data = {
     message?: string,

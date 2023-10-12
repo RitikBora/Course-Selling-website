@@ -8,7 +8,9 @@ import { useRouter } from 'next/router';
 import {useSetRecoilState} from "recoil";
 import {userState} from "../../store/atoms/user";
 
-function SignupPage() {
+function SignupPage(props : {
+    url : string
+}) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const router = useRouter();
@@ -51,7 +53,7 @@ function SignupPage() {
                     size={"large"}
                     variant="contained"
                     onClick={async() => {
-                        const response = await axios.post(`${BASE_URL}/admin/signup`, {
+                        const response = await axios.post(props.url, {
                             username: email,
                             password: password
                         })

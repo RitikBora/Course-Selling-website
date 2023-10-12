@@ -8,7 +8,9 @@ import {useSetRecoilState} from "recoil";
 import {userState} from "../../store/atoms/user";
 import { BASE_URL } from "../../config";
 
-function SigninPage() {
+function SigninPage(props : {
+    url : string
+}) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const router = useRouter();
@@ -22,7 +24,7 @@ function SigninPage() {
                 justifyContent: "center"
             }}>
                 <Typography variant={"h6"}>
-                Welcome to Coursera. Sign up below
+                Welcome to Coursera. Sign in below
                 </Typography>
             </div>
         <div style={{display: "flex", justifyContent: "center"}}>
@@ -52,7 +54,7 @@ function SigninPage() {
                     size={"large"}
                     variant="contained"
                     onClick={async () => {
-                        const res = await axios.post(`${BASE_URL}/admin/login`, {
+                        const res = await axios.post(props.url, {
                             username: email,
                             password: password
                         }, {

@@ -7,10 +7,10 @@ export const AuthenticateJwt = (req : Request , res : Response , next : NextFunc
 {   
     const authHeader = req.headers.authorization;
   if (authHeader) {
-    const token = authHeader;
+    const token = authHeader.split(' ')[1];
     jwt.verify(token, SECRET, (err, user) => {
       if (err) {
-        return res.sendStatus(403);
+        return res.status(403).send();
       }
       if (user !== undefined && typeof user === "object") {
         req.headers['user'] = user.username;

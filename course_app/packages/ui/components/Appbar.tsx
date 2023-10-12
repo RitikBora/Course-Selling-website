@@ -12,9 +12,9 @@ function Appbar({}) {
     const userEmail = useRecoilValue(userEmailState);
     const setUser = useSetRecoilState(userState);
 
-    if (userLoading) {
-        return <></>
-    }
+    // if (userLoading) {
+    //     return <></>
+    // }
 
     if (userEmail) {
         return <div style={{
@@ -65,7 +65,7 @@ function Appbar({}) {
             display: "flex",
             justifyContent: "space-between",
             padding: 4,
-            zIndex: 1
+            zIndex: 1,
         }}>
             <div style={{marginLeft: 10, cursor: "pointer"}} onClick={() => {
                 router.push("/");
@@ -94,5 +94,4 @@ function Appbar({}) {
         </div>
     }
 }
-
 export default Appbar;

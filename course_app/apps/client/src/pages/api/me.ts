@@ -1,15 +1,11 @@
-import { connectToDb } from './db/mongoose';
-import {Request , Response , NextFunction } from 'express';
+import { checkifDbConnected} from './db/mongoose';
+import {Request , Response} from 'express';
 import {Admin} from 'db'
 
-import type { NextApiRequest, NextApiResponse } from 'next'
 import { AuthenticateJwt } from './middlewares/authenticate';
-type Data = {
-  message ?: string,
-  username ?: string
-}
 
-connectToDb();
+
+checkifDbConnected();
 
 export default async function handler(
   req: Request,

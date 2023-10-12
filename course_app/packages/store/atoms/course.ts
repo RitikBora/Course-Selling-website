@@ -1,13 +1,15 @@
 import {atom} from "recoil";
 
-interface AtomInt{
+export interface AtomInt{
   isLoading : boolean,
   course : Course | null
 }
 export interface Course{
   title : string,
   price : string,
+  description: string,
   image : string
+  _id : string
 }
 export const courseState = atom<AtomInt>({
   key: 'courseState',
