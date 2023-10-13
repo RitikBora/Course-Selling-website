@@ -17,7 +17,6 @@ export default async function handler(
         {
           let courseId = req.query.courseId as string;
           courseId = courseId?.slice(1);
-
           if(req.method === "PUT")
           {
             const newCourse = {

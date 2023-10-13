@@ -1,6 +1,7 @@
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {Card} from "@mui/material";
+import { useRouter } from "next/router";
 import {useState} from "react";
 import axios from "axios";
 import { BASE_URL } from "../../config";
@@ -10,6 +11,8 @@ function AddCourse() {
     const [description, setDescription] = useState("");
     const [image, setImage] = useState("");
     const [price, setPrice] = useState(0)
+
+    const router = useRouter();
 
     return <div style={{display: "flex", justifyContent: "center", minHeight: "80vh",  flexDirection: "column"}}>
         <div style={{display: "flex", justifyContent: "center"}}>
@@ -70,7 +73,7 @@ function AddCourse() {
                                 "Authorization": "Bearer " + localStorage.getItem("token")
                             }
                         });
-                        alert("Added course!");
+                        router.push('/courses');
                     }}
                 > Add course</Button>
             </Card>

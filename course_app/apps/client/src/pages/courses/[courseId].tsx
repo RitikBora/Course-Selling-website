@@ -7,22 +7,22 @@ import { useRouter } from 'next/router';
 import {Loading} from "ui";
 import {courseState } from "store/atoms/course";
 import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
-import { courseTitle, coursePrice, isCourseLoading, courseImage } from "store/selectors";
+import { courseTitle, coursePrice, isCourseLoading, courseImage, courseDescription } from "store/selectors";
 import { BASE_URL } from "../../../config";
 
 
 function Course() {
-    let { courseId } = useParams();
     const router = useRouter();
     const setCourse = useSetRecoilState(courseState);
     const courseLoading = useRecoilValue(isCourseLoading);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-
+        let { courseId } = router.query;
+        
         if(token)
         {
-            axios.get(`${BASE_URL}/admin/course/${courseId}`, {
+            axios.get(`${BASE_URL}/api/courses/` + courseId, {
                 method: "GET",
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token")
@@ -165,6 +165,7 @@ function UpdateCard() {
 function CourseCard() {
     const title = useRecoilValue(courseTitle);
     const imageLink = useRecoilValue(courseImage);
+    const description = useRecoilValue(courseDescription);
 
     return <div style={{display: "flex",  marginTop: 50, justifyContent: "center", width: "100%"}}>
      <Card style={{
@@ -179,6 +180,7 @@ function CourseCard() {
         <img src={imageLink} style={{width: 350}} ></img>
         <div style={{marginLeft: 10}}>
             <Typography variant="h5">{title}</Typography>
+            <Typography variant="h5">{description}</Typography>
             <Price />
         </div>
     </Card>
