@@ -2,8 +2,7 @@ import { Button, Card, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/router';
 import axios from "axios";
-
-const BASE_URL = `http://localhost:3000/api/courses`;
+import { BASE_URL } from "../../../config";
 
 interface Course {
     title : string,
@@ -12,8 +11,10 @@ interface Course {
     _id: string  
 }
 
+type SetCourses = React.Dispatch<React.SetStateAction<Course[]>>;
+
 function Courses() {
-    const [courses, setCourses] = useState([]);
+    const [courses, setCourses] = useState<Course[]>([]);
     const router = useRouter();
 
     const init = async () => {
@@ -21,7 +22,7 @@ function Courses() {
 
         if(token)
         {
-            const response = await axios.get(BASE_URL, {
+            const response = await axios.get(BASE_URL + "/api/courses", {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
@@ -29,7 +30,7 @@ function Courses() {
             setCourses(response.data.courses)
         }else
         {
-            router.push('/signin');
+            router.push('/');
         }
     }
 
@@ -37,15 +38,24 @@ function Courses() {
         init();
     }, []);
 
-    return <div style={{display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
+    return <>
+    {
+        courses.length !== 0 ? 
+        <div style={{display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
         {courses.map(course => {
-            return <Course course={course} />}
+            return <Course course={course} setCourses={setCourses}/>}
         )}
-    </div>
+        </div> :
+        <div>
+            <h3>No Courses added yet</h3>
+        </div>
+    }
+    </>
 }
 
-export function Course(props : {
-    course : Course
+export function Course(props :  {
+    course : Course,
+    setCourses : SetCourses
 }) {
     const router = useRouter();
     return <Card style={{
@@ -60,7 +70,16 @@ export function Course(props : {
         <div style={{display: "flex", justifyContent: "center", marginTop: 20}}>
             <Button variant="contained" size="large" onClick={() => {
                 router.push("courses/:" + props.course._id);
-            }}>Edit</Button>
+            }}>Edit</Button> 
+            <Button variant="contained" style={{marginLeft: 15}}size="large" onClick={async () => {
+                const response = await axios.post(BASE_URL + "/api/courses/:" + props.course._id , {} , {
+                    headers: {
+                        "Content-type": "application/json",
+                        "Authorization": "Bearer " + localStorage.getItem("token")
+                    }    
+                })
+               props.setCourses(response.data.courses);
+            }}>Delete</Button>
         </div>
     </Card>
 

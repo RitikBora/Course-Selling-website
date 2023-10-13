@@ -3,8 +3,7 @@ import Button from "@mui/material/Button";
 import {Card} from "@mui/material";
 import {useState} from "react";
 import axios from "axios";
-
-const BASE_URL = `http://localhost:3000/api/courses`
+import { BASE_URL } from "../../config";
 
 function AddCourse() {
     const [title, setTitle] = useState("");
@@ -60,7 +59,7 @@ function AddCourse() {
                     size={"large"}
                     variant="contained"
                     onClick={async () => {
-                        await axios.post(BASE_URL, {
+                        await axios.post(BASE_URL + "/api/courses", {
                             title: title,
                                 description: description,
                                 imageLink: image,

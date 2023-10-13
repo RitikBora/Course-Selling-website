@@ -3,30 +3,41 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom";
 import { Typography, TextField, Button } from "@mui/material";
 import axios from "axios";
+import { useRouter } from 'next/router';
 import {Loading} from "ui";
 import {courseState } from "store/atoms/course";
 import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import { courseTitle, coursePrice, isCourseLoading, courseImage } from "store/selectors";
+import { BASE_URL } from "../../../config";
 
-const BASE_URL = "http://localhost:3000";
 
 function Course() {
     let { courseId } = useParams();
+    const router = useRouter();
     const setCourse = useSetRecoilState(courseState);
     const courseLoading = useRecoilValue(isCourseLoading);
 
     useEffect(() => {
-        axios.get(`${BASE_URL}/admin/course/${courseId}`, {
-            method: "GET",
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem("token")
-            }
-        }).then(res => {
-            setCourse({isLoading: false, course: res.data.course});
-        })
-        .catch(e => {
-            setCourse({isLoading: false, course: null});
-        });
+        const token = localStorage.getItem('token');
+
+        if(token)
+        {
+            axios.get(`${BASE_URL}/admin/course/${courseId}`, {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                }
+            }).then(res => {
+                setCourse({isLoading: false, course: res.data.course});
+            })
+            .catch(e => {
+                setCourse({isLoading: false, course: null});
+            });
+        }else
+        {
+            router.push("/");
+        }
+        
     }, []);
 
     if (courseLoading) {
