@@ -5,7 +5,10 @@ import {useRecoilValue} from "recoil";
 import { userEmailState } from "../../store/selectors/userEmail"
 import { isUserLoading } from "../../store/selectors/isUserLoading";
 
-export const LandingPage = () => {
+export const LandingPage = (props :
+    {
+        application : string
+    }) => {
     const router = useRouter();
     const userEmail = useRecoilValue(userEmailState);
     const userLoading = useRecoilValue(isUserLoading);
@@ -14,7 +17,7 @@ export const LandingPage = () => {
             <Grid item xs={12} md={6} lg={6}>
                 <div style={{marginTop: 100}}>
                     <Typography variant={"h2"}>
-                        Coursera Admin
+                        Coursera {props.application}
                     </Typography>
                     <Typography variant={"h5"}>
                         A place to learn, earn and grow

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from 'next/router';
 import axios from "axios";
 import { BASE_URL } from "../../../config";
+import { Loading } from "ui";
 
 interface Course {
     title : string,
@@ -15,6 +16,7 @@ type SetCourses = React.Dispatch<React.SetStateAction<Course[]>>;
 
 function Courses() {
     const [courses, setCourses] = useState<Course[]>([]);
+    const [isCourseLoading , setIsCourseLoading] = useState(true);
     const router = useRouter();
 
     const init = async () => {
@@ -27,7 +29,8 @@ function Courses() {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             })
-            setCourses(response.data.courses)
+            setCourses(response.data.courses);
+            setIsCourseLoading(false);
         }else
         {
             router.push('/');
@@ -37,18 +40,24 @@ function Courses() {
     useEffect(() => {
         init();
     }, []);
-
-    return <>
-    {
-        courses.length !== 0 ? 
-        <div style={{display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
-        {courses.map(course => {
-            return <Course course={course} setCourses={setCourses}/>}
-        )}
-        </div> :
-        <div>
-            <h3>No Courses added yet</h3>
-        </div>
+    
+    return <> 
+        {isCourseLoading === true ? <>
+            <Loading/>
+        </>
+        : <>
+        {
+            courses.length !== 0 ? 
+            <div style={{display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
+            {courses.map(course => {
+                return <Course course={course} setCourses={setCourses}/>}
+            )}
+            </div> :
+            <div>
+                <h3>No Courses added yet</h3>
+            </div>
+        }
+        </>
     }
     </>
 }

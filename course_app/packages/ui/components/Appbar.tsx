@@ -6,7 +6,9 @@ import {useSetRecoilState, useRecoilValue} from "recoil";
 import { userEmailState } from "../../store/selectors/userEmail"
 import {userState} from "../../store/atoms/user";
 
-function Appbar({}) {
+function Appbar(props : {
+    application : string
+}) {
     const router = useRouter();
     const userLoading = useRecoilValue(isUserLoading);
     const userEmail = useRecoilValue(userEmailState);
@@ -17,50 +19,17 @@ function Appbar({}) {
     }
 
     if (userEmail) {
-        return <div style={{
-            display: "flex",
-            justifyContent: "space-between",
-            padding: 4,
-            zIndex: 1
-        }}>
-            <div style={{marginLeft: 10, cursor: "pointer"}} onClick={() => {
-                router.push("/");
-            }}>
-                <Typography variant={"h6"}>Coursera</Typography>
-            </div>
-    
-            <div style={{display: "flex"}}>
-                <div style={{marginRight: 10, display: "flex"}}>
-                <div style={{marginRight: 10}}>
-                        <Button
-                            onClick={() => {
-                                router.push("/addcourse");
-                            }}
-                        >Add course</Button>
-                    </div>
-
-                    <div style={{marginRight: 10}}>
-                        <Button
-                            onClick={() => {
-                                router.push("/courses");
-                            }}
-                        >Courses</Button>
-                    </div>
-
-                    <Button
-                        variant={"contained"}
-                        onClick={() => {
-                            localStorage.removeItem("token");
-                            setUser({
-                                isLoading: false,
-                                userEmail: null
-                            })
-                            router.push('/');
-                        }}
-                    >Logout</Button>
-                </div>
-            </div>
-        </div>
+        if(props.application === "Admin")
+        {
+            return <>
+                <AdminAppBar/>
+            </>
+        }else
+        {
+            return <>
+                <UserAppbar/>
+            </>
+        }
     } else {
         return <div style={{
             display: "flex",
@@ -94,5 +63,105 @@ function Appbar({}) {
             </div>
         </div>
     }
+}
+
+const AdminAppBar = () =>
+{
+    const setUser = useSetRecoilState(userState);
+    const router = useRouter();
+    return <div style={{
+        display: "flex",
+        justifyContent: "space-between",
+        padding: 4,
+        zIndex: 1
+    }}>
+        <div style={{marginLeft: 10, cursor: "pointer"}} onClick={() => {
+            router.push("/");
+        }}>
+            <Typography variant={"h6"}>Coursera</Typography>
+        </div>
+
+        <div style={{display: "flex"}}>
+            <div style={{marginRight: 10, display: "flex"}}>
+            <div style={{marginRight: 10}}>
+                    <Button
+                        onClick={() => {
+                            router.push("/addcourse");
+                        }}
+                    >Add course</Button>
+                </div>
+
+                <div style={{marginRight: 10}}>
+                    <Button
+                        onClick={() => {
+                            router.push("/courses");
+                        }}
+                    >Courses</Button>
+                </div>
+
+                <Button
+                    variant={"contained"}
+                    onClick={() => {
+                        localStorage.removeItem("token");
+                        setUser({
+                            isLoading: false,
+                            userEmail: null
+                        })
+                        router.push('/');
+                    }}
+                >Logout</Button>
+            </div>
+        </div>
+    </div>
+}
+
+const UserAppbar = () =>
+{
+    const setUser = useSetRecoilState(userState);
+    const router = useRouter();
+    return <div style={{
+        display: "flex",
+        justifyContent: "space-between",
+        padding: 4,
+        zIndex: 1
+    }}>
+        <div style={{marginLeft: 10, cursor: "pointer"}} onClick={() => {
+            router.push("/");
+        }}>
+            <Typography variant={"h6"}>Coursera</Typography>
+        </div>
+
+        <div style={{display: "flex"}}>
+            <div style={{marginRight: 10, display: "flex"}}>
+            <div style={{marginRight: 10}}>
+                    <Button
+                        onClick={() => {
+                            router.push("/addcourse");
+                        }}
+                    >Purchases</Button>
+                </div>
+
+                <div style={{marginRight: 10}}>
+                    <Button
+                        onClick={() => {
+                            router.push("/courses");
+                        }}
+                    >Courses</Button>
+                </div>
+
+                <Button
+                    variant={"contained"}
+                    onClick={() => {
+                        localStorage.removeItem("token");
+                        setUser({
+                            isLoading: false,
+                            userEmail: null
+                        })
+                        router.push('/');
+                    }}
+                >Logout</Button>
+            </div>
+        </div>
+    </div>
 }
 export default Appbar;
