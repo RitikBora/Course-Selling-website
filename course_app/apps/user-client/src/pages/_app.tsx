@@ -6,7 +6,7 @@ import { InitUser } from 'ui'
 export default function App({ Component, pageProps }: AppProps) {
   return <>
     <RecoilRoot>
-      <Appbar application='Admin'/>
+      <Appbar application='user'/>
       <InitUser url="http://localhost:3000/api/me"/>
       <Component {...pageProps} />
     </RecoilRoot>

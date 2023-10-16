@@ -3,12 +3,13 @@ import TextField from "@mui/material/TextField";
 import {Card, Typography} from "@mui/material";
 import {useState} from "react";
 import axios from "axios";
-import { BASE_URL } from "../../config";
 import { useRouter } from 'next/router';
 import {useSetRecoilState} from "recoil";
 import {userState} from "../../store/atoms/user";
 
-function SignupPage() {
+function SignupPage(props : {
+    url : string
+}) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const router = useRouter();
@@ -32,6 +33,7 @@ function SignupPage() {
                         setEmail(event.target.value);
                     }}
                     fullWidth={true}
+                    required = {true}
                     label="Email"
                     variant="outlined"
                 />
@@ -41,6 +43,7 @@ function SignupPage() {
                         setPassword(e.target.value);
                     }}
                     fullWidth={true}
+                    required = {true}
                     label="Password"
                     variant="outlined"
                     type={"password"}
@@ -51,7 +54,9 @@ function SignupPage() {
                     size={"large"}
                     variant="contained"
                     onClick={async() => {
-                        const response = await axios.post(`${BASE_URL}/admin/signup`, {
+                       try
+                       {
+                        const response = await axios.post(props.url, {
                             username: email,
                             password: password
                         })
@@ -60,6 +65,11 @@ function SignupPage() {
                         // window.location = "/"
                         setUser({userEmail: email, isLoading: false})
                         router.push("/courses")
+
+                       }catch(err : any)
+                       {
+                            alert(err.response.data.message);
+                       }
                     }}
 
                 > Signup</Button>

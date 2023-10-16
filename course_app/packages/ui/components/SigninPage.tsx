@@ -6,9 +6,10 @@ import axios from "axios";
 import { useRouter } from 'next/router';
 import {useSetRecoilState} from "recoil";
 import {userState} from "../../store/atoms/user";
-import { BASE_URL } from "../../config";
 
-function SigninPage() {
+function SigninPage(props : {
+    url : string
+}) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const router = useRouter();
@@ -22,7 +23,7 @@ function SigninPage() {
                 justifyContent: "center"
             }}>
                 <Typography variant={"h6"}>
-                Welcome to Coursera. Sign up below
+                Welcome to Coursera. Sign in below
                 </Typography>
             </div>
         <div style={{display: "flex", justifyContent: "center"}}>
@@ -32,6 +33,7 @@ function SigninPage() {
                         let elemt = evant11.target;
                         setEmail(elemt.value);
                     }}
+                    required={true}
                     fullWidth={true}
                     label="Email"
                     variant="outlined"
@@ -41,34 +43,40 @@ function SigninPage() {
                     onChange={(e) => {
                         setPassword(e.target.value);
                     }}
+                    required={true}
                     fullWidth={true}
                     label="Password"
                     variant="outlined"
                     type={"password"}
                 />
                 <br/><br/>
-
                 <Button
                     size={"large"}
                     variant="contained"
                     onClick={async () => {
-                        const res = await axios.post(`${BASE_URL}/admin/login`, {
-                            username: email,
-                            password: password
-                        }, {
-                            headers: {
-                                "Content-type": "application/json"
-                            }
-                        });
-                        const data = res.data;
+                        try
+                        {
+                            const res = await axios.post(props.url, {
+                                username: email,
+                                password: password
+                            }, {
+                                headers: {
+                                    "Content-type": "application/json"
+                                }
+                            });
+                            const data = res.data;
+                            localStorage.setItem("token", data.token);
+                            // window.location = "/"
+                            setUser({
+                                userEmail: email,
+                                isLoading: false
+                            })
+                            router.push("/courses")
 
-                        localStorage.setItem("token", data.token);
-                        // window.location = "/"
-                        setUser({
-                            userEmail: email,
-                            isLoading: false
-                        })
-                        router.push("/courses")
+                        }catch(err : any)
+                        {
+                           alert(err.response.data.message);
+                        }
                     }}
 
                 > Signin</Button>

@@ -1,7 +1,7 @@
 
  import type { NextApiRequest, NextApiResponse } from 'next'
  import {checkifDbConnected} from './db/mongoose';
- import {Admin} from 'db'
+ import {User} from 'db'
  import jwt from 'jsonwebtoken'
  
  checkifDbConnected();
@@ -24,16 +24,16 @@ export default async function handler(
         {
           res.status(403).json({ message: 'Please enter both username and password correctly' });
         }
-        const admin = await Admin.findOne({ username })
-        if (admin) {
-            res.status(403).json({ message: 'Admin already exists' });
+        const user = await User.findOne({ username })
+        if (user) {
+            res.status(403).json({ message: 'User already exists' });
           } else {
             const obj = { username: username, password: password };
-            const newAdmin = new Admin(obj);
-            newAdmin.save();
+            const newUser = new User(obj);
+            newUser.save();
     
-            const token = jwt.sign({ username, role: 'admin' }, SECRET, { expiresIn: '1h' });
-            res.json({ message: 'Admin created successfully', token });
+            const token = jwt.sign({ username, role: 'user' }, SECRET, { expiresIn: '1h' });
+            res.json({ message: 'User created successfully', token });
           }
 
     }else

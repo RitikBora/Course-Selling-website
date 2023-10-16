@@ -1,6 +1,6 @@
 import { checkifDbConnected} from './db/mongoose';
 import {Request , Response , NextFunction } from 'express';
-import {Admin} from 'db'
+import {User} from 'db'
 
 import { AuthenticateJwt } from './middlewares/authenticate';
 
@@ -16,13 +16,13 @@ export default async function handler(
         {
             if(req.method === "GET")
             {
-                const admin = await Admin.findOne({ username: req.headers['user'] });
-                if (!admin) {
-                return res.status(403).json({message: "Admin doesnt exist"})
+                const user = await User.findOne({ username: req.headers['user'] });
+                if (!user) {
+                return res.status(403).json({message: "User doesnt exist"})
                 
                 }
                 return res.status(200).json({
-                    username: admin.username
+                    username: user.username
                 })
             }else
             {

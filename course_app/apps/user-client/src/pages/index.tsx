@@ -1,6 +1,6 @@
 import { LandingPage } from "ui";
 export default function Home() {
   return (
-    <LandingPage application="Admin"/>
+    <LandingPage application=""/>
   )
 }
