@@ -17,7 +17,8 @@ const courseSchema = new mongoose.Schema({
     description: String,
     price: Number,
     imageLink: String,
-    published: Boolean
+    published: Boolean,
+    adminName: String
   });
 
 export const User = mongoose.models.User || mongoose.model('User', userSchema);

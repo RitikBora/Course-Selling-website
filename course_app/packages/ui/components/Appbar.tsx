@@ -12,9 +12,9 @@ function Appbar({}) {
     const userEmail = useRecoilValue(userEmailState);
     const setUser = useSetRecoilState(userState);
 
-    // if (userLoading) {
-    //     return <></>
-    // }
+    if (userLoading) {
+        return <></>
+    }
 
     if (userEmail) {
         return <div style={{
@@ -55,6 +55,7 @@ function Appbar({}) {
                                 isLoading: false,
                                 userEmail: null
                             })
+                            router.push('/');
                         }}
                     >Logout</Button>
                 </div>

@@ -3,7 +3,6 @@ import TextField from "@mui/material/TextField";
 import {Card, Typography} from "@mui/material";
 import {useState} from "react";
 import axios from "axios";
-import { BASE_URL } from "../../config";
 import { useRouter } from 'next/router';
 import {useSetRecoilState} from "recoil";
 import {userState} from "../../store/atoms/user";
@@ -34,6 +33,7 @@ function SignupPage(props : {
                         setEmail(event.target.value);
                     }}
                     fullWidth={true}
+                    required = {true}
                     label="Email"
                     variant="outlined"
                 />
@@ -43,6 +43,7 @@ function SignupPage(props : {
                         setPassword(e.target.value);
                     }}
                     fullWidth={true}
+                    required = {true}
                     label="Password"
                     variant="outlined"
                     type={"password"}
@@ -53,6 +54,8 @@ function SignupPage(props : {
                     size={"large"}
                     variant="contained"
                     onClick={async() => {
+                       try
+                       {
                         const response = await axios.post(props.url, {
                             username: email,
                             password: password
@@ -62,6 +65,11 @@ function SignupPage(props : {
                         // window.location = "/"
                         setUser({userEmail: email, isLoading: false})
                         router.push("/courses")
+
+                       }catch(err : any)
+                       {
+                            alert(err.response.data.message);
+                       }
                     }}
 
                 > Signup</Button>

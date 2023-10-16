@@ -20,6 +20,10 @@ export default async function handler(
     {
         const { username, password } = req.body;
         // db calls
+        if(username === "" || password === "")
+        {
+          res.status(403).json({ message: 'Please enter both username and password correctly' });
+        }
         const admin = await Admin.findOne({ username })
         if (admin) {
             res.status(403).json({ message: 'Admin already exists' });

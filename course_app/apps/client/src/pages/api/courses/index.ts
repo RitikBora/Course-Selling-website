@@ -16,15 +16,24 @@ export default async function handler(
       {
         try
         {
+          const adminName = req.headers['user'];
           if(req.method === "POST")
           {
-            const course = new Course(req.body);
+            const newCourse = {
+              title : req.body.title,
+              description : req.body.description,
+              price : req.body.price,
+              imageLink : req.body.imageLink,
+              published : req.body.published,
+              adminName :adminName
+            }
+            const course = new Course(newCourse);
             await course.save();
             return res.status(200).json({ message: 'Course created successfully', courseId: course.id });
 
           }else if(req.method === "GET")
           {
-              const courses = await Course.find({});
+              const courses = await Course.find({adminName : adminName});
               return res.status(200).json({courses});
           }else
           {

@@ -67,7 +67,7 @@ function AddCourse() {
                                 description: description,
                                 imageLink: image,
                                 published: true,
-                                price
+                                price: price
                         }, {
                             headers: {
                                 "Authorization": "Bearer " + localStorage.getItem("token")
