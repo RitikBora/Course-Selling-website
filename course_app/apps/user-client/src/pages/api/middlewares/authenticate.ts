@@ -10,7 +10,7 @@ export const AuthenticateJwt = (req : Request , res : Response , next : NextFunc
     const token = authHeader.split(' ')[1];
     jwt.verify(token, SECRET, (err, user) => {
       if (err) {
-        return res.status(403).send();
+        return res.status(403).send("Error occured while jwt verification");
       }
       if (user !== undefined && typeof user === "object") {
         req.headers['user'] = user.username;
