@@ -8,7 +8,7 @@ export interface Course{
   title : string,
   price : string,
   description: string,
-  image : string
+  imageLink : string
   _id : string
 }
 export const courseState = atom<AtomInt>({
