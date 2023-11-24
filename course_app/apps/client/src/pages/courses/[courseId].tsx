@@ -18,8 +18,9 @@ function Course() {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        let { courseId } = router.query;
-        
+        const currentURL = window.location.href;
+        const courseId = currentURL.split("courses/")[1];
+
         if(token)
         {
             axios.get(`${BASE_URL}/api/courses/` + courseId, {
@@ -72,11 +73,12 @@ function GrayTopper() {
 
 function UpdateCard() {
     const [courseDetails, setCourse] = useRecoilState(courseState);
+    const router =  useRouter();
     if(courseDetails.course !== null)
     {
         const [title, setTitle] = useState(courseDetails.course.title);
         const [description, setDescription] = useState(courseDetails.course.description);
-        const [image, setImage] = useState(courseDetails.course.image);
+        const [image, setImage] = useState(courseDetails.course.imageLink);
         const [price, setPrice] = useState(courseDetails.course.price);
 
         const courseId = courseDetails.course._id;
@@ -131,7 +133,7 @@ function UpdateCard() {
                     <Button
                         variant="contained"
                         onClick={async () => {
-                            axios.put(`${BASE_URL}/admin/courses/` + courseId, {
+                            axios.put(`${BASE_URL}/api/courses/:` + courseId, {
                                 title: title,
                                 description: description,
                                 imageLink: image,
@@ -147,10 +149,11 @@ function UpdateCard() {
                                 _id: courseId,
                                 title: title,
                                 description: description,
-                                image: image,
+                                imageLink: image,
                                 price
                             };
                             setCourse({course: updatedCourse, isLoading: false});
+                            router.push("/courses");
                         }}
                     > Update course</Button>
                 </div>
