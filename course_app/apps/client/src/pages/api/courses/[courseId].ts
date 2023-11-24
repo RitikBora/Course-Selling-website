@@ -23,7 +23,7 @@ export default async function handler(
             title : req.body.title,
             description : req.body.description,
             price : req.body.price,
-            image : req.body.image,
+            imageLink : req.body.imageLink,
             published : req.body.published
             }
             const course = await Course.findByIdAndUpdate(courseId, newCourse, { new: true });

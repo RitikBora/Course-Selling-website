@@ -136,7 +136,7 @@ const UserAppbar = () =>
             <div style={{marginRight: 10}}>
                     <Button
                         onClick={() => {
-                            router.push("/addcourse");
+                            router.push("/purchasedCourses");
                         }}
                     >Purchases</Button>
                 </div>
