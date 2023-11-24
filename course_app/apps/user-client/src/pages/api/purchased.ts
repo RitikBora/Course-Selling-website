@@ -24,8 +24,10 @@ export default async function handler(
 
               const purchasedCourses = user.purchasedCourses;
 
-              const coursePromises = purchasedCourses.map(async (courseId: string) => {
-                const course = await Course.findById(courseId);
+              const coursePromises = purchasedCourses.map(async (courseId: object) => {
+                let course_id = JSON.stringify(courseId);
+                course_id = course_id.substring(1 , course_id.length - 1);
+                const course = await Course.findById(course_id);
                 return course;
               });
               try {
