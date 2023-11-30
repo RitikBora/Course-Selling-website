@@ -1,8 +1,12 @@
 
 import mongoose from 'mongoose';
+import {config} from 'dotenv'
 
-
-const dbUrl = 'mongodb://127.0.0.1:27017/courseapp' ;
+const username = process.env.MONGO_USERNAME;
+    const password = process.env.MONGO_PASSWORD;
+const dbUrl = `mongodb+srv://${username}:${password}@projects.icbkpjd.mongodb.net/courseapp` ;
+//local url
+// const dbUrl = 'mongodb://127.0.0.1:27017/courseapp' ;
 
 let dbConnected = false;
 

@@ -13,8 +13,8 @@ export const checkifDbConnected = () =>
 
     const username = process.env.MONGO_USERNAME;
     const password = process.env.MONGO_PASSWORD;
-    // const dbUrl = `mongodb+srv://${username}:${password}@projects.icbkpjd.mongodb.net/courseapp` ;
-    const dbUrl = 'mongodb://127.0.0.1:27017/courseapp' ; // for local testing
+    const dbUrl = `mongodb+srv://${username}:${password}@projects.icbkpjd.mongodb.net/courseapp` ;
+    // const dbUrl = 'mongodb://127.0.0.1:27017/courseapp' ; // for local testing
 
     
     mongoose.connect(dbUrl);
