@@ -14,7 +14,10 @@ function Appbar(props : {
     const userEmail = useRecoilValue(userEmailState);
     const setUser = useSetRecoilState(userState);
 
-  
+    if(userLoading)
+    {
+        return<></>
+    }
     if (userEmail) {
         if(props.application === "Admin")
         {

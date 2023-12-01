@@ -17,6 +17,7 @@ export default async function handler(
         {
           let courseId = req.query.courseId as string;
           courseId = courseId?.slice(1);
+          const adminName = req.headers['user'];
           if(req.method === "PUT")
           {
             const newCourse = {
@@ -40,7 +41,7 @@ export default async function handler(
           {
             await Course.findByIdAndRemove(courseId);
 
-            const courses = await Course.find({});
+            const courses = await Course.find({adminName : adminName});
             return res.status(200).json({courses});
           }else
           {
