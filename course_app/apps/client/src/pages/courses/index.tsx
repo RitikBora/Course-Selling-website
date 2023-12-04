@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 import axios from "axios";
 import { BASE_URL } from "../../../config";
 import { Loading } from "ui";
+import { courseState } from "store";
+import {useResetRecoilState} from "recoil"
 
 interface Course {
     title : string,
@@ -16,6 +18,7 @@ type SetCourses = React.Dispatch<React.SetStateAction<Course[]>>;
 
 function Courses() {
     const [courses, setCourses] = useState<Course[]>([]);
+    const resetCourseState = useResetRecoilState(courseState);
     const [isCourseLoading , setIsCourseLoading] = useState(true);
     const router = useRouter();
 
@@ -31,6 +34,7 @@ function Courses() {
             })
             setCourses(response.data.courses);
             setIsCourseLoading(false);
+            resetCourseState();
         }else
         {
             router.push('/');
@@ -50,7 +54,7 @@ function Courses() {
             courses.length !== 0 ? 
             <div style={{display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
             {courses.map(course => {
-                return <Course course={course} setCourses={setCourses}/>}
+                return <Course course={course} setCourses={setCourses} key={course._id}/>}
             )}
             </div> :
             <div>
@@ -75,7 +79,7 @@ export function Course(props :  {
     }}>
         <Typography textAlign={"center"} variant="h5">{props.course.title}</Typography>
         <Typography textAlign={"center"} variant="subtitle1">{props.course.description}</Typography>
-        <img src={props.course.imageLink} style={{width: 300}} ></img>
+        <img src={props.course.imageLink} style={{width: 300 , height:170}} ></img>
         <div style={{display: "flex", justifyContent: "center", marginTop: 20}}>
             <Button variant="contained" size="large" onClick={() => {
                 router.push("courses/:" + props.course._id);

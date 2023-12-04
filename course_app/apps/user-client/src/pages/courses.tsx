@@ -9,7 +9,8 @@ interface Course {
     title : string,
     description : string,
     imageLink : string,
-    _id: string  
+    _id: string,
+    price: string  
 }
 
 type SetCourses = React.Dispatch<React.SetStateAction<Course[]>>;
@@ -70,6 +71,7 @@ export function Course(props :  {
         <Typography textAlign={"center"} variant="h5">{props.course.title}</Typography>
         <Typography textAlign={"center"} variant="subtitle1">{props.course.description}</Typography>
         <img src={props.course.imageLink} style={{width: 300 , height: 160}} className="center" ></img>
+        <Typography textAlign={"center"} variant="body1">Rs {props.course.price}</Typography>
         <div style={{display: "flex", justifyContent: "center", marginTop: 20}}>
             <Button variant="contained" size="large" onClick={async () => {
                 const response = await axios.post(BASE_URL + "/api/courses/:" + props.course._id , {} , {
