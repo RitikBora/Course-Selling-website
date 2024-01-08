@@ -49,7 +49,7 @@ function Courses() {
         : <>
             <div style={{display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
             {courses.map(course => {
-                return <Course course={course} setCourses={setCourses}/>}
+                return <Course key={course._id} course={course} setCourses={setCourses}/>}
             )}
             </div>
         </>
