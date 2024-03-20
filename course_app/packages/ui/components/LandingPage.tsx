@@ -47,7 +47,7 @@ export const LandingPage = (props :
                 </div>
             </Grid>
             <Grid item xs={12} md={6} lg={6}  style={{marginTop: 20}}>
-                {props.application === "Admin" ? <img src={"/admin/landing.jpg"} width={"100%"} /> : <img src={"/users/landing.jpg"} width={"100%"} />}
+                {props.application === "Admin" ? <img src={"/coursera/admin/landing.jpg"} width={"100%"} /> : <img src={"/coursera/users/landing.jpg"} width={"100%"} />}
             </Grid>
         </Grid>
     </div>

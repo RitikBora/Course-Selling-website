@@ -2,8 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ['ui' , 'store' , 'db'],
-  assetPrefix: '/users',
-  basePath: '/users'
+  assetPrefix: '/coursera/users',
+  basePath: '/coursera/users'
 }
 
 module.exports = nextConfig
