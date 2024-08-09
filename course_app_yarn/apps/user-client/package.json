@@ -1,0 +1,26 @@
+{
+  "name": "user-client",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "db": "*",
+    "dotenv": "^16.3.1",
+    "next": "13.5.4",
+    "react": "^18",
+    "react-dom": "^18",
+    "store": "*",
+    "ui": "*"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "typescript": "^5"
+  }
+}
